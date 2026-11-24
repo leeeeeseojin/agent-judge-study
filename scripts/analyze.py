@@ -96,6 +96,52 @@ def compare(name: str, a: dict[str, str], b: dict[str, str], ids: set[str] | Non
     return f"| {name} | {len(common)} | {agree}/{len(common)} | {kappa(xa, xb):.2f} | {lo:.2f}–{hi:.2f} |"
 
 
+def stability(items: dict, false_success: set, judges: dict) -> list[str]:
+    """같은 입력을 다시 판정한 반복 실행(judge/repeats/)으로 판정이 얼마나 흔들리는지 본다.
+
+    RQ2에서 표식 유무로 바뀐 건수가 이 흔들림보다 큰지가 핵심이다. 흔들림만큼은 표식이 없어도 바뀐다."""
+    repeats: dict[tuple, list[dict]] = defaultdict(list)
+    for f in sorted((ROOT / "judge/repeats").glob("*.jsonl")) if (ROOT / "judge/repeats").exists() else []:
+        run: dict[tuple, dict] = defaultdict(dict)
+        for r in map(json.loads, f.open(encoding="utf8")):
+            run[(r["judge"], r["condition"], bool(r["marker"]))][r["item_id"]] = r
+        for key, rows in run.items():
+            repeats[key].append(rows)
+    if not repeats:
+        return []
+
+    out = ["", "## 판정 흔들림 (같은 입력 반복)", "",
+           "본 실행과 반복 실행의 성공 판정을 같은 입력끼리 비교한다. 표식 유무 비교(RQ2)와 같은 기록(표식이 있는 기록)만 센다.", "",
+           "| 심판·조건 | 실행 수 | 비교 건수 | 반복 간 성공 판정이 바뀜 (실행 쌍 평균) | 모든 실행에서 같음 | 표식 유무로 바뀜 (RQ2) |",
+           "| --- | --- | --- | --- | --- | --- |"]
+    per_run = ["", "실행별로 다시 센 주요 수치. 실행마다 결론이 같으면 흔들림에 강한 결과다.", "",
+               "| 심판·조건 | 실행 | 거짓 성공을 잡음 | 실제 성공을 실패로 봄 | 표식 있을 때만 성공 / 없을 때만 성공 | p |",
+               "| --- | --- | --- | --- | --- | --- |"]
+    for (judge, cond, has_marker), reps in sorted(repeats.items()):
+        if not has_marker or (judge, cond, True) not in judges:
+            continue
+        runs = [judges[(judge, cond, True)]] + reps
+        ids = [i for i in runs[0] if items[i]["marker"] and all(i in r for r in runs)]
+        pairs = [(a, b) for a in range(len(runs)) for b in range(a + 1, len(runs))]
+        flips = [sum(runs[a][i]["success"] != runs[b][i]["success"] for i in ids) for a, b in pairs]
+        stable = sum(len({r[i]["success"] for r in runs}) == 1 for i in ids)
+        without = judges.get((judge, cond, False), {})
+        marker_flips = sum(runs[0][i]["success"] != without[i]["success"] for i in ids if i in without)
+        out.append(f"| {judge}·{cond} | {len(runs)} | {len(ids)} | {sum(flips) / len(flips):.1f} ({', '.join(map(str, flips))}) "
+                   f"| {stable}/{len(ids)} | {marker_flips} |")
+
+        # 실행마다 RQ1·RQ2 수치를 다시 센다. 반복 실행에도 표식 없는 판정이 있어서 RQ2를 실행별로 잴 수 있다
+        withouts = [without] + [r for r in repeats.get((judge, cond, False), [])]
+        fs = [i for i in false_success if all(i in r for r in runs)]
+        ok = [i for i in runs[0] if items[i]["state_success"] and all(i in r for r in runs)]
+        for n, (w, wo) in enumerate(zip(runs, withouts), 1):
+            pushed = sum(w[i]["success"] and not wo[i]["success"] for i in ids if i in wo)
+            pulled = sum(not w[i]["success"] and wo[i]["success"] for i in ids if i in wo)
+            per_run.append(f"| {judge}·{cond} | {'본 실행' if n == 1 else f'반복 {n - 1}'} | {sum(not w[i]['success'] for i in fs)}/{len(fs)} "
+                           f"| {sum(not w[i]['success'] for i in ok)}/{len(ok)} | {pushed} / {pulled} | {fmt_p(mcnemar(pushed, pulled))} |")
+    return out + per_run
+
+
 def main() -> None:
     items = {it["id"]: it for it in map(json.loads, (ROOT / "data/items.jsonl").open(encoding="utf8"))}
     r1, r2 = read_labels("sheet_round1.csv"), read_labels("sheet_round2.csv")
@@ -211,6 +257,8 @@ def main() -> None:
             if approval:
                 rows.append(compare(f"나 vs {judge}·{cond} (표식 없이, 승인 대기 {len(approval)}건 제외)", final, jc, set(final) - approval))
     out += [r for r in rows if r] or ["| (라벨 없음) | | | | |"]
+
+    out += stability(items, false_success, judges)
 
     (ROOT / "results").mkdir(exist_ok=True)
     (ROOT / "results/summary.md").write_text("\n".join(out) + "\n", encoding="utf8")
