@@ -96,7 +96,7 @@ def main() -> None:
         for r in map(json.loads, f.open(encoding="utf8")):
             judges[(r["judge"], r["condition"], bool(r["marker"]))][r["item_id"]] = r
 
-    by_src = Counter(items[i]["source"] for i in false_success)
+    by_src = Counter(items[i]["source"] for i in sorted(false_success))
     out = [
         "# 결과 요약", "",
         f"- 실행 {len(items)}건, 실제 실패 {sum(not it['state_success'] for it in items.values())}건",
