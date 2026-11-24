@@ -48,10 +48,11 @@ python scripts/adjudicate.py make
 python scripts/adjudicate.py merge <내보낸 csv>
 ```
 
-## 재검사
+## 라벨 신뢰도
 
-1차 라벨을 다 붙이고 며칠 뒤, 1차 결과를 보지 않고 `labels/sheet_round2.csv`에 다시 붙인다. 같은 기록을 다른 순서로 섞어 둔 시트다. 두 번의 일치도(자기 자신과의 Cohen's κ)로 라벨의 안정성을 본다.
+라벨의 신뢰도는 다른 라벨러와의 일치도로 본다. 처음에는 며칠 뒤 같은 기록을 다시 붙이는 재검사(자기 일치도)도 계획했지만 하지 않았다. 같은 사람의 재검사보다 다른 사람과의 일치도가 더 강한 근거이기 때문이다.
 
 ```bash
-python scripts/make_label_sheets.py --retest
+python scripts/make_label_sheets.py --other      # 다른 라벨러용 30건 (다시 실행하면 30건을 덧붙인다)
+python scripts/label_tool.py make labels/sheet_other.csv
 ```
