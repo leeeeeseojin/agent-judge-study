@@ -11,6 +11,7 @@
     --limit N            앞에서 N건만 (시험 실행용)
     --workers N          동시 요청 수 (기본 4)
     --dry-run            첫 요청의 프롬프트만 출력하고 끝낸다
+    --repeat N           같은 입력을 다시 판정해 judge/repeats/<이름>-r<N>.jsonl에 쌓는다 (판정 흔들림 측정)
 
 입력 조건:
     A  지시문 + 최종 답변
@@ -302,12 +303,14 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--vision", action="store_true", help="openrouter 모델이 이미지를 읽을 때")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--repeat", type=int, help="같은 입력을 다시 판정한 N번째 실행. judge/repeats/<이름>-r<N>.jsonl에 따로 쌓는다")
     args = ap.parse_args()
 
     call, vision = PROVIDERS[args.provider]
     vision = vision or args.vision
     name = args.name or args.model.split("/")[-1]
-    out_path = ROOT / "judge" / f"{name}.jsonl"
+    # 반복 실행은 analyze.py가 읽는 judge/*.jsonl과 섞이지 않게 하위 폴더에 둔다
+    out_path = ROOT / "judge" / (f"repeats/{name}-r{args.repeat}.jsonl" if args.repeat else f"{name}.jsonl")
 
     items = [json.loads(l) for l in (ROOT / "data/items.jsonl").open(encoding="utf8")]
     if args.ids:
