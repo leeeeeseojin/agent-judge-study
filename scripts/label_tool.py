@@ -4,7 +4,7 @@
     python scripts/label_tool.py make [시트]            labels/label_tool_<시트 이름>.html 생성 (라벨이 빈 행만)
     python scripts/label_tool.py merge <내보낸 csv> [시트]   화면에서 받은 결과를 시트에 적는다
 
-시트 기본값은 labels/sheet_round1.csv. 재검사 때는 labels/sheet_round2.csv,
+시트 기본값은 labels/sheet_round1.csv.
 다른 라벨러에게는 labels/sheet_other.csv를 준다. 화면 파일 하나만 보내면 브라우저에서 바로 열린다.
 화면에는 item_id를 보여주지 않는다. id에 모델 이름이 들어 있어서다.
 입력한 값은 브라우저에 자동 저장되고, "내보내기"를 누르면 csv로 내려받는다.
@@ -43,7 +43,7 @@ def make(sheet: Path) -> None:
         sys.exit(f"{sheet.name}: 라벨이 빈 행이 없습니다.")
     data = json.dumps({"sheet": sheet.name, "total": len(rows), "items": todo}, ensure_ascii=False)
     html = TEMPLATE.replace("__DATA__", data.replace("</", "<\\/"))
-    # 시트마다 화면 파일을 따로 둔다. 다른 사람에게 보낼 화면이 내 재검사 화면을 덮어쓰지 않게
+    # 시트마다 화면 파일을 따로 둔다. 다른 사람에게 보낼 화면이 내 라벨링 화면을 덮어쓰지 않게
     out = ROOT / "labels" / f"label_tool_{sheet.stem}.html"
     out.write_text(html, encoding="utf8")
     print(f"{out.relative_to(ROOT)}: {len(todo)}건 (전체 {len(rows)}건 중 라벨이 빈 행)")

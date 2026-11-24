@@ -10,7 +10,6 @@
 
 사용법:
     python scripts/make_label_sheets.py           labels/sheet_round1.csv 생성. 다시 실행하면 새 후보만 아래에 덧붙인다
-    python scripts/make_label_sheets.py --retest  labels/sheet_round2.csv 생성. 같은 기록을 다른 순서로 (재검사용)
     python scripts/make_label_sheets.py --other   labels/sheet_other.csv 생성. 다른 라벨러용 30건 (내 라벨별 10건씩 무작위)
                                                   시트가 있으면 30건을 덧붙인다 (UNSURE·NOT_DONE 남은 것 전부 + DONE 무작위)
 
@@ -119,14 +118,6 @@ def main() -> None:
         rng.shuffle(ids)
         write_csv(LABELS / "sheet_other.csv", [row(i) for i in ids])
         print(f"sheet_other.csv {len(ids)}건 (내 라벨별 {OTHER_PER_LABEL}건씩 무작위, 순서 섞음)")
-        return
-
-    if "--retest" in sys.argv:
-        done = read_csv(r1)
-        ids = [r["item_id"] for r in done if r["label"].strip()]
-        random.Random(20261201).shuffle(ids)
-        write_csv(LABELS / "sheet_round2.csv", [row(i) for i in ids])
-        print(f"sheet_round2.csv {len(ids)}건 (1차에서 라벨을 붙인 기록만, 순서 섞음)")
         return
 
     existing = read_csv(r1)
