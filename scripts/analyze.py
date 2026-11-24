@@ -93,7 +93,7 @@ def compare(name: str, a: dict[str, str], b: dict[str, str], ids: set[str] | Non
     xa, xb = [a[i] for i in common], [b[i] for i in common]
     agree = sum(x == y for x, y in zip(xa, xb))
     lo, hi = kappa_ci(xa, xb)
-    return f"| {name} | {len(common)} | {agree}/{len(common)} | {kappa(xa, xb):.2f} | {lo:.2f}~{hi:.2f} |"
+    return f"| {name} | {len(common)} | {agree}/{len(common)} | {kappa(xa, xb):.2f} | {lo:.2f}–{hi:.2f} |"
 
 
 def main() -> None:
