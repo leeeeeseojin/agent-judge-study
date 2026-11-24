@@ -71,6 +71,14 @@ def main() -> None:
     items = {it["id"]: it for it in map(json.loads, (ROOT / "data/items.jsonl").open(encoding="utf8"))}
     r1, r2 = read_labels("sheet_round1.csv"), read_labels("sheet_round2.csv")
     other = read_labels("sheet_other.csv")  # 다른 라벨러. 애매한 기록을 많이 뽑아 실제 분포와 다르다
+    # 최종 라벨 = 1차 라벨 + 다른 라벨러와 어긋난 기록의 조정 결과 (labels/adjudication.csv).
+    # 일치도(재검사, 다른 라벨러)는 조정 전 r1로 재고, 주장 축과 정규식·표식·심판 비교는 최종 라벨로 한다
+    final = dict(r1)
+    adj_path = ROOT / "labels/adjudication.csv"
+    if adj_path.exists():
+        for r in csv.DictReader(adj_path.open(encoding="utf-8-sig")):
+            final[r["item_id"]] = SHORT[r["final"]]
+    adjusted = sum(final[i] != r1[i] for i in r1)
     regex = {}
     if (ROOT / "labels/regex.csv").exists():
         regex = {r["item_id"]: r["label3"] for r in csv.DictReader((ROOT / "labels/regex.csv").open(encoding="utf8"))}
@@ -78,7 +86,7 @@ def main() -> None:
 
     # 주장 축: 표식 > 직접 라벨. 표식은 에이전트가 형식을 갖춰 선언한 주장이라 우선한다.
     # 표식과 본문이 어긋나는 기록은 주장 축을 바꾸지 않고 RQ3에서 따로 본다. 빈 답변은 주장 없음.
-    claim = {i: it["claim_auto"] if it["claim_auto"] else r1.get(i) for i, it in items.items()}
+    claim = {i: it["claim_auto"] if it["claim_auto"] else final.get(i) for i, it in items.items()}
     unresolved = [i for i, c in claim.items() if c is None]
     false_success = {i for i, it in items.items() if not it["state_success"] and claim[i] == "CLAIM_DONE"}
     marker = {i: it["claim_auto"] for i, it in items.items() if it["claim_auto"] in CLAIMS}
@@ -93,7 +101,7 @@ def main() -> None:
         "# 결과 요약", "",
         f"- 실행 {len(items)}건, 실제 실패 {sum(not it['state_success'] for it in items.values())}건",
         f"- 거짓 성공 {len(false_success)}건 ({', '.join(f'{k} {v}' for k, v in by_src.items())})",
-        f"- 직접 라벨 1차 {len(r1)}건, 재검사 {len(r2)}건, 다른 라벨러 {len(other)}건" + (f" · **주장이 정해지지 않은 기록 {len(unresolved)}건**" if unresolved else ""),
+        f"- 직접 라벨 1차 {len(r1)}건 (조정으로 바뀐 기록 {adjusted}건), 재검사 {len(r2)}건, 다른 라벨러 {len(other)}건" + (f" · **주장이 정해지지 않은 기록 {len(unresolved)}건**" if unresolved else ""),
         "",
     ]
 
@@ -137,25 +145,27 @@ def main() -> None:
         out.append("| (판정 없음) | | | | | |")
 
     # RQ3. 애매한 주장 — 직접 라벨한 기록에서 정규식·심판·표식·나 자신
-    out += ["", "## RQ3. 주장 판정 일치도 (직접 라벨 기준)", "", "| 비교 | 건수 | 일치 | κ |", "| --- | --- | --- | --- |"]
-    marked_labeled = {i for i in r1 if i in marker}
+    out += ["", "## RQ3. 주장 판정 일치도 (직접 라벨 기준)", "",
+            "사람끼리의 일치도는 조정 전 1차 라벨, 나머지는 조정 후 최종 라벨로 잰다.", "",
+            "| 비교 | 건수 | 일치 | κ |", "| --- | --- | --- | --- |"]
+    marked_labeled = {i for i in final if i in marker}
     random_ids = {i for i, why in selection.items() if "random" in why}
     rows = [
         compare("1차 vs 재검사 (자기 일치도)", r1, r2),
         compare("나 vs 다른 라벨러 (애매한 기록 위주로 뽑음)", r1, other),
-        compare("나 vs 정규식", r1, regex),
-        compare("나 vs 표식 (표식 있는 기록)", r1, marker, marked_labeled),
-        compare("나 vs 표식 (무작위 30건 → 놓친 불일치 추정)", r1, marker, random_ids),
+        compare("나 vs 정규식", final, regex),
+        compare("나 vs 표식 (표식 있는 기록)", final, marker, marked_labeled),
+        compare("나 vs 표식 (무작위 30건 → 놓친 불일치 추정)", final, marker, random_ids),
     ]
     # 승인 대기 답변: 라벨링 가이드는 CLAIM_UNSURE, 심판 프롬프트는 처음 규칙대로 CLAIM_NOT_DONE.
     # 규칙 차이로 생기는 불일치를 빼고 다시 센 행을 함께 둔다
-    approval = APPROVAL_WAIT & set(r1)
+    approval = APPROVAL_WAIT & set(final)
     for (judge, cond, has_marker), js in sorted(judges.items()):
         if not has_marker:
             jc = {i: r["claim"] for i, r in js.items() if r.get("claim")}
-            rows.append(compare(f"나 vs {judge}·{cond} (표식 없이)", r1, jc))
+            rows.append(compare(f"나 vs {judge}·{cond} (표식 없이)", final, jc))
             if approval:
-                rows.append(compare(f"나 vs {judge}·{cond} (표식 없이, 승인 대기 {len(approval)}건 제외)", r1, jc, set(r1) - approval))
+                rows.append(compare(f"나 vs {judge}·{cond} (표식 없이, 승인 대기 {len(approval)}건 제외)", final, jc, set(final) - approval))
     out += [r for r in rows if r] or ["| (라벨 없음) | | | |"]
 
     (ROOT / "results").mkdir(exist_ok=True)
