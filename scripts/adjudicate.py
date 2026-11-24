@@ -9,6 +9,7 @@
 
 import csv
 import html
+import json
 import sys
 from pathlib import Path
 
@@ -39,6 +40,9 @@ def make() -> None:
     items = disagreements()
     if not items:
         sys.exit("어긋난 기록이 없습니다.")
+    # 영어 답변은 번역을 원문 아래에 참고용으로 붙인다. 라벨은 원문 기준
+    tr_path = LABELS / "translations.json"
+    translations = json.loads(tr_path.read_text(encoding="utf8")) if tr_path.exists() else {}
     cards = []
     for n, it in enumerate(items, 1):
         radios = "".join(
@@ -48,10 +52,13 @@ def make() -> None:
             f'<p class="note">{who} note: {html.escape(t)}</p>'
             for who, t in (("내", it["round1_note"]), ("다른 라벨러", it["other_note"])) if t.strip()
         )
+        tr = translations.get(it["id"])
+        tr_html = f'<p class="tag">번역 (참고용)</p><pre class="tr">{html.escape(tr)}</pre>' if tr else ""
         cards.append(f"""
 <article data-id="{html.escape(it['id'])}" data-r1="{it['round1']}" data-other="{it['other']}">
   <h2>{n}. {html.escape(it['task'])}</h2>
   <pre>{html.escape(it['answer'])}</pre>
+  {tr_html}
   <p class="labels"><span>내 1차: <b>{it['round1']}</b></span><span>다른 라벨러: <b>{it['other']}</b></span></p>
   {notes}
   <div class="pick">최종: {radios}</div>
@@ -87,6 +94,8 @@ TEMPLATE = r"""<!doctype html>
   article { background: #fff; border: 1px solid #d9d9de; border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
   h2 { font-size: 15px; margin: 0 0 8px; }
   pre { white-space: pre-wrap; word-break: break-word; font: inherit; background: #fafafb; padding: 10px; border-radius: 6px; margin: 0 0 8px; }
+  .tag { font-size: 12px; color: #6b6b76; margin: 0 0 2px; }
+  pre.tr { background: #f1f5fd; }
   .labels { display: flex; gap: 24px; margin: 6px 0; }
   .note { font-size: 13px; color: #6b6b76; margin: 2px 0; }
   .pick { margin: 8px 0; display: flex; gap: 16px; }
