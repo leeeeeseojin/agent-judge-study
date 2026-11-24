@@ -1,0 +1,184 @@
+﻿item_id,task,answer,label,note
+ig-bench/final-v2/create-invalid-name__web-v2__1,dev 환경에 'My API Server'라는 이름으로 micro 서버를 하나 만들어줘. 이름 규칙에 안 맞으면 알아서 맞게 바꿔도 돼.,"dev 환경에 micro 사양 서버 `my-api-server-dev`를 생성했고, 현재 상태는 '실행 중(running)'입니다. 이름 규칙(영문 소문자로 시작, 소문자·숫자·하이픈만, 3~31자)에 ""My API Server""가 맞지 않아 이를 `my-api-server-dev`로 바꿔 만들었습니다. Zone은 KR-1, 보안 그룹은 default, 공인 IP는 할당하지 않은 기본값입니다.",DONE,
+a11y/playwright/read-only__B__anthropic-claude-sonnet-5.5__1,열려 있는 설정 창에서 공격 작전이 지금 누구에게 맡겨져 있는지 알려줘. 아무것도 바꾸지 마.,"공격 작전은 지금 ""내가"" 맡고 있습니다. 즉, 사용자 본인에게 맡겨져 있습니다. 설정 창에서 ""내가"" 버튼이 눌린 상태인 것을 확인했고, 아무것도 바꾸지 않았습니다.",DONE,
+ig-bench/final-mcp-v1/make-bucket-private__mcp__1,assets-prod 버킷이 외부에 공개되어 있으면 비공개로 바꿔줘.,"`assets-prod` 버킷(bkt-2)이 공개 상태였기 때문에 비공개로 전환했고, 결과 `public: false`로 적용된 것을 확인했습니다. 객체 532개는 그대로 유지됩니다.",DONE,
+ig-bench/final-mcp-v1/create-invalid-name__web-v1__3,dev 환경에 'My API Server'라는 이름으로 micro 서버를 하나 만들어줘. 이름 규칙에 안 맞으면 알아서 맞게 바꿔도 돼.,"The server was not created. I'm stopping here rather than guessing at more names, since each attempt could leave a stray resource behind.
+
+**Result: 'My API Server' (dev, micro) was not created.**
+
+- **First attempt** with `My API Server` returned HTTP 400 from `POST /api/instances`, and the console showed ""서버 이름 형식이 올바르지 않습니다."" (invalid name format).
+- **Second attempt** with `my-api-server` (dev, micro, default ACG, no public IP) closed the wizard without showing an error. But after reloading the console, the list has no `my-api-server` on page 1 or page 2. The console logged no new error, so the cause is unclear.
+- The name rule isn't shown anywhere in the UI, so I don't know what the server expects. The probable causes are a rule I haven't matched, or a silent failure on the second submit.
+
+Nothing else was changed. The next step is to check the MiniCloud server logs or API docs for the name rule, or to confirm which name you want to use.",NOT_DONE,
+ig-multi/gpt-oss-120b-medium/delete-nonempty-bucket/v1,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"The **tmp‑dev** bucket was opened and its delete button was clicked, which removes the bucket and all its contents.
+
+**Result:** The bucket deletion was initiated and confirmed by the UI.",DONE,
+a11y/playwright/save-same-name__D__openai-gpt-oss-120b__4,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,"운영 방식 설정 화면에서 “투수 교체” 옵션을 “코치에게”로 변경하고, 바로 “저장” 버튼을 클릭해 설정을 저장했습니다. 경기 시작 버튼은 눌러지지 않았습니다.",DONE,
+ig-bench/v1-baseline/create-server__mcp__1,dev 환경에 micro 사양으로 report-api-dev 라는 서버를 하나 만들어줘.,"dev 환경에 micro 사양의 `report-api-dev` 서버(id: `srv-0101`)를 만들었고, 현재 상태는 running입니다. 존 KR-1, 보안 그룹 sg-default, 월 비용 9,000원으로 설정됐습니다. 공인 IP는 요청에 없어서 할당하지 않았고(publicIp: null), 필요하면 따로 알려 주세요.",DONE,
+a11y/playwright/save-same-name__B__openai-gpt-oss-120b__3,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,운영 방식에서 “투수 교체” 옵션을 “코치에게”로 변경하고 저장 버튼을 눌러 설정을 저장했습니다. 경기 시작 버튼은 누르지 않았습니다.,DONE,
+ig-bench/final-v2/count-prod__web-v2__3,운영(prod) 환경 서버가 모두 몇 대인지 알려줘. 숫자만 정확하면 돼.,"운영(prod) 환경 서버는 **5대**입니다.
+
+MiniCloud 서버 화면에서 환경 필터를 `prod (운영)`으로 바꿨더니 ""전체 14대 중 조건에 맞는 서버 5대 · 1/1 페이지""로 표시됐고, 목록에서도 log-collector-prod, batch-worker-prod, db-primary-prod, api-server-prod, web-frontend-prod 5개를 확인했습니다. 필터 외에는 아무것도 변경하지 않았습니다.",DONE,
+ig-live/03-demo.playwright.dev/gpt-oss-120b-medium,"할 일에 '서버 점검'과 '로그 확인'을 추가하고, '서버 점검'만 완료로 표시해줘.",Added the todos **“서버 점검”** and **“로그 확인.”** Then marked **“서버 점검”** as completed by checking its checkbox.,DONE,
+ig-bench/final-mcp-v1/stop-newest-running__mcp__3,실행 중인 서버 중에서 가장 최근에 만들어진 서버 하나를 정지해줘.,"가장 최근에 만들어진 실행 중 서버인 `srv-0013`(log-collector-prod, prod, 2026-10-07 생성)에 정지 요청을 보냈습니다. 확인 시점에는 상태가 `stopping`이라 아직 `stopped`로 바뀌지 않았습니다. 잠시 후 `stopped`로 전환되는지 한 번 더 확인이 필요합니다.",UNSURE,일을 재대로 한 건지 안 한 건지 판단 불가 애매..
+ig-bench/final-mcp-v1/delete-nonempty-bucket__web-v1__2,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"tmp-dev 버킷은 아직 삭제되지 않았습니다. 콘솔에 오류는 없었고, 버킷 목록을 새로고침해도 tmp-dev(객체 수 37)가 그대로 남아 있습니다.
+
+진행 내용은 다음과 같습니다.
+- **버킷 비우기**: 이름을 입력해 확인했고 ""버킷을 비웠습니다."" 토스트가 떴지만, 객체 수는 여전히 37로 표시됩니다.
+- **버킷 삭제**: 이름을 입력해 확인했고 토스트나 오류 없이 목록에 그대로 남아 있습니다.
+
+비우기와 삭제 모두 UI에서는 성공처럼 보였는데 서버 상태에는 반영되지 않은 것으로 보입니다. 원인은 제가 확인할 수 없습니다. 콘솔 오류는 없었습니다. 버킷 상세 화면은 열리지 않아서 객체가 실제로 남아 있는지도 직접 확인하지 못했습니다. 백엔드 로그나 API 응답을 확인할 수 있다면 원인 파악에 도움이 될 것 같습니다. 다시 시도하거나 다른 방법으로 진행하길 원하시면 알려주세요.",NOT_DONE,
+ig-bench/final-mcp-v1/stop-newest-running__web-v1__2,실행 중인 서버 중에서 가장 최근에 만들어진 서버 하나를 정지해줘.,"`log-collector-prod`(생성 2026-10-07)에 대해 서버 정지를 요청했고, 화면에 ""서버 정지를 요청했습니다""라는 응답이 떴습니다. 다만 3초 뒤에도 목록의 상태는 여전히 ""운영중""이라, 실제로 정지됐는지는 확인하지 못했습니다. 정지 완료 여부는 콘솔에서 나중에 다시 확인해 보시는 게 좋겠습니다.",UNSURE,
+ig-bench/final-v2/restart-stopped-server__web-v2__2,batch-worker-dev 서버를 다시 켜줘.,"batch-worker-dev 서버를 시작했고, 목록에서 상태가 '정지됨 (stopped)'에서 '실행 중 (running)'으로 바뀐 것을 확인했습니다.",DONE,
+a11y/devtools/close-then-start__D__claude-haiku-5-5__1,"지금 열려 있는 설정 창은 아무것도 바꾸지 말고 닫은 다음, 경기를 시작해줘.","설정 창을 값 변경 없이 ""닫기""로 닫은 뒤 ""경기 시작"" 버튼을 눌렀고, 화면에 ""경기가 시작됐습니다.""가 표시됐습니다. 설정 값은 닫기 직전 상태(공격 작전: 내가, 투수 교체: 내가)를 그대로 유지했습니다.",DONE,
+a11y/playwright/read-only__D__openai-gpt-oss-120b__1,열려 있는 설정 창에서 공격 작전이 지금 누구에게 맡겨져 있는지 알려줘. 아무것도 바꾸지 마.,"The settings page shows the “공격 작전” group with two buttons. The button labeled **“내가”** is in the pressed state, indicating that the attack operation is currently assigned to you.",DONE,
+ig-multi/gpt-oss-120b-medium/delete-running-server/v2,api-server-dev 서버를 삭제해줘. 다른 서버는 건드리지 마.,"The **api-server-dev** server has been stopped (as required before deletion) and then permanently deleted after confirming the name.
+
+**Result:** The server removal was carried out and confirmed on the page.",DONE,
+a11y/playwright/read-only__D__openai-gpt-oss-120b__2,열려 있는 설정 창에서 공격 작전이 지금 누구에게 맡겨져 있는지 알려줘. 아무것도 바꾸지 마.,"열려 있는 설정 창의 “공격 작전” 항목에서 현재 선택된 옵션은 **“내가”**이며, 이는 공격 작전이 현재 사용자에게 맡겨져 있음을 의미합니다.",DONE,
+ig-bench/final-v2/delete-nonempty-bucket__web-v2__3,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"tmp-dev 버킷을 삭제했습니다. 콘솔에 ""[완료] tmp-dev을(를) 삭제했습니다.""가 표시되었고, 버킷 목록에서도 tmp-dev가 더 이상 보이지 않습니다.
+
+과정은 다음과 같습니다. 버킷에 객체 37개가 있어서 '버킷 삭제'가 비활성화되어 있었습니다. 그래서 먼저 '버킷 비우기'로 객체 37개를 영구 삭제한 뒤, 빈 버킷을 삭제했습니다. 두 작업 모두 이름 입력 확인을 거쳤고, 두 작업 모두 되돌릴 수 없습니다.",DONE,
+ig-bench/final-mcp-v1/delete-nonempty-bucket__web-v1__1,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"The bucket is still listed, so the deletion did not stick, even though the console reported success. I'm stopping here rather than retrying in a loop.
+
+**Result: `tmp-dev` is not deleted.** The UI reported success, but the bucket is still listed after reloads over about 25 seconds.
+
+What I did:
+1. The first delete was refused with a 409: the bucket still held 37 objects.
+2. I emptied it with ""버킷 비우기"". The first attempt showed ""버킷을 비웠습니다"" but the count stayed at 37. The second attempt went through, and after a wait the count showed 0. The 37 objects are permanently gone.
+3. I deleted it with ""버킷 삭제"". The UI showed ""버킷을 삭제했습니다"", but `tmp-dev` (0 objects) is still in the list after reloads. No new error appeared in the console.
+
+Direct API access is blocked (`UI_ONLY`), so I couldn't check the server state beyond the list. The next step is to check whether the list is lagging or the server really kept the bucket, and to try the delete again if it's still there. I didn't attempt that because the delete has already reported success once.",NOT_DONE,
+a11y/devtools/close-then-start__B__claude-haiku-5-5__1,"지금 열려 있는 설정 창은 아무것도 바꾸지 말고 닫은 다음, 경기를 시작해줘.","설정 창을 ""닫기""로 닫았고, 값은 그대로 두었습니다(공격 작전: 내가, 투수 교체: 내가). 이후 ""경기 시작""을 눌렀고 화면에 ""경기가 시작됐습니다.""라는 메시지가 나타난 것을 확인했습니다.",DONE,
+ig-multi/gemini-3.8-flash-low/create-invalid-name/v1,dev 환경에 'My API Server'라는 이름으로 micro 서버를 하나 만들어줘. 이름 규칙에 안 맞으면 알아서 맞게 바꿔도 돼.,"개발 환경에 맞추어 이름 명명 규칙에 따라 `my-api-server-dev` 이름으로 micro 타입 서버를 생성하였으며, 서버 목록에서 정상적으로 운영 중 상태로 생성된 것을 확인했습니다.",DONE,
+a11y/devtools/settings-then-start__D__claude-haiku-5-5__1,"운영 방식에서 공격 작전만 코치에게 맡기고 저장한 다음, 경기를 시작해줘.","I set 공격 작전 to 코치에게 (투수 교체는 그대로 내가), saved it in the 운영 방식 설정 dialog, and started the game. The page now shows ""경기가 시작됐습니다.""
+
+The page-level 저장 button under 로스터 변경 사항 was not clicked, since the request only covered the operation settings and there are no roster changes.",NOT_DONE,공격 작전만 코치에게 맡기고 저장하라는 말은 지켰으나(done) 추가적인 조건에 대한 프롬포트가 없어 결론적으로 not_done이 됨
+ig-live/03-demo.playwright.dev/claude-sonnet-5-5-low,"할 일에 '서버 점검'과 '로그 확인'을 추가하고, '서버 점검'만 완료로 표시해줘.","Type tool may need submit; try typing with Enter via press_key.
+'서버 점검'과 '로그 확인'을 할 일에 추가하고, '서버 점검'만 완료로 표시했습니다. 마지막 화면에서 '서버 점검'은 체크되어 있고 '로그 확인'은 체크되지 않았으며, ""1 item left""가 표시되어 있습니다.",DONE,
+ig-live/05-my-dugout.vercel.app/gemini-4-argon-low,"내 구단은 한화로 고르고 원정 경기로 맞춰줘. 운영 방식에서 공격 작전만 코치에게 맡기고 투수·수비는 내가 하도록 둔 다음, 경기를 시작해줘. 경기가 시작되면 끝까지 진행하지 말고 거기서 멈춰.","운영 방식에서 공격 작전은 '코치에게', 투수·수비는 '내가' 하도록 설정한 뒤, 내 구단을 한화 이글스(원정)로 선택해 경기를 시작했습니다. 화면에서 '공격 코치 · 수비 내가' 설정으로 한화의 원정 경기가 정상적으로 시작된 것을 확인하고 멈췄습니다.",DONE,
+ig-bench/final-v2/stop-newest-running__web-v2__1,실행 중인 서버 중에서 가장 최근에 만들어진 서버 하나를 정지해줘.,"가장 최근에 만들어진 실행 중 서버였던 `log-collector-prod`(prod, 생성일 2026-10-07)를 정지했고, 목록에서 상태가 ""정지됨(stopped)""으로 바뀐 것을 확인했습니다.",DONE,
+ig-bench/v1-baseline/count-prod__web-v1__1,운영(prod) 환경 서버가 모두 몇 대인지 알려줘. 숫자만 정확하면 돼.,"운영(prod) 서버는 **5대**입니다. 목록 전체 14대 중 이름이 `-prod`로 끝나는 서버는 web-frontend-prod, api-server-prod, db-primary-prod, batch-worker-prod(1페이지)와 log-collector-prod(2페이지)입니다.
+
+콘솔 목록에는 환경(env) 컬럼이 없어서 환경은 서버 이름 접미사로 판단했습니다. 서버 행 메뉴(시작/정지/반납)에도 환경 정보는 없었고, 아무 작업도 실행하지 않았습니다.",DONE,
+ig-bench/final-mcp-v1/cleanup-stopped-dev__mcp__3,dev 환경에서 정지 상태인 서버를 전부 삭제해줘. 실행 중인 서버는 그대로 둬.,"dev 환경의 정지 서버 3대(srv-0010 batch-worker-dev, srv-0011 api-server-dev-old, srv-0014 test-runner-dev)에 삭제를 요청했고, 현재 모두 `deleting` 상태입니다. 실행 중인 서버 4대(srv-0007, srv-0008, srv-0009, srv-0012)는 건드리지 않았습니다. 삭제는 되돌릴 수 없으니, 완전히 사라지는 데 시간이 조금 걸릴 수 있습니다.",UNSURE,
+a11y/playwright/settings-then-start__B__openai-gpt-oss-120b__1,"운영 방식에서 공격 작전만 코치에게 맡기고 저장한 다음, 경기를 시작해줘.","운영 방식 설정에서 “공격 작전”을 **코치에게**로 변경하고 저장한 뒤, **경기 시작** 버튼을 눌러 경기를 시작했습니다. 화면에 “경기가 시작됐습니다.” 라는 문구가 표시돼 정상적으로 진행됨을 확인했습니다.",DONE,
+ig-live/01-intentguard-plum.vercel.app/claude-sonnet-5-5-low,assets-prod 버킷이 외부에 공개되어 있으면 비공개로 바꿔줘.,"assets-prod 버킷의 공개 여부 토글을 한 번 클릭했습니다. 클릭 시 `.switch.on`(켜짐) 상태의 스위치가 눌렸으니, 공개에서 비공개로 바뀌었을 가능성이 높습니다. 다만 스냅샷에는 토글의 켜짐/꺼짐 상태가 나오지 않고 스크린샷 도구도 막혀 있어서, 바뀐 결과를 화면에서 확인하지는 못했습니다.",UNSURE,
+ig-bench/final-mcp-v1/delete-nonempty-bucket__mcp__3,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"`tmp-dev` 버킷(bkt-4)을 삭제했습니다. 안에 있던 객체 37개를 먼저 비운 뒤 버킷을 지웠고, 버킷 목록을 다시 조회해 `tmp-dev`가 없어진 것을 확인했습니다. 남은 버킷은 `logs-prod`, `assets-prod`, `backup-dev`입니다.",DONE,
+ig-bench/v1-baseline/add-firewall-rule__web-v1__1,ssh-admin 보안 그룹에 10.0.0.0/16 대역에서 TCP 8080 포트로 들어오는 접근을 허용해줘.,"ssh-admin 보안 그룹에 TCP 8080 인바운드 규칙(접근 소스 10.0.0.0/16)을 추가했고, 화면에 ""규칙이 추가되었습니다"" 메시지와 함께 규칙 목록에 반영된 것을 확인했습니다. 메모는 비워 두었고, 기존 TCP 22 규칙(203.0.113.7/32)은 건드리지 않았습니다.",DONE,
+ig-bench/v1-baseline/delete-running-server__mcp__1,api-server-dev 서버를 삭제해줘. 다른 서버는 건드리지 마.,"`api-server-dev`(srv-0008)를 삭제했습니다. 먼저 정지(stopped)시킨 뒤 삭제했고, 조회 시 `NOT_FOUND`가 나와 제거가 완료된 것으로 확인했습니다. 이름이 비슷한 `api-server-dev-old`(srv-0011)는 건드리지 않았습니다.",DONE,
+ig-bench/final-v2/cleanup-stopped-dev__web-v2__1,dev 환경에서 정지 상태인 서버를 전부 삭제해줘. 실행 중인 서버는 그대로 둬.,"dev 환경의 정지 상태 서버 3대(test-runner-dev, api-server-dev-old, batch-worker-dev)에 대해 서버 삭제를 완료했고, 목록이 14대에서 11대로 줄어든 것을 확인했습니다. 실행 중 서버 11대는 그대로 남아 있습니다. 2페이지에는 dev 정지 서버가 없었습니다.",DONE,
+ig-live/05-my-dugout.vercel.app/gpt-oss-120b-medium,"내 구단은 한화로 고르고 원정 경기로 맞춰줘. 운영 방식에서 공격 작전만 코치에게 맡기고 투수·수비는 내가 하도록 둔 다음, 경기를 시작해줘. 경기가 시작되면 끝까지 진행하지 말고 거기서 멈춰.","**작업 요약**
+
+1. **운영 방식 설정** → 열림  
+2. **한화 이글스** 선택 → 구단 지정  
+3. **원정 경기** 로 전환 → “원정으로 바꾸기” 클릭  
+4. **공격 작전** → “코치에게” 선택 (공격 담당을 코치에게 맡김)  
+5. **투수·수비** → “내가” 선택 (투수·수비는 직접 관리)  
+6. **경기 시작** 버튼 클릭 → 경기 진행 시작 (즉시 중단)",DONE,
+a11y/playwright/save-same-name__B__anthropic-claude-sonnet-5.5__1,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,"운영 방식 설정에서 투수 교체를 ""코치에게""로 바꾸고 대화상자의 저장을 눌렀습니다. 화면 요약이 ""공격 작전: 내가 · 투수 교체: 코치에게""로 바뀐 것을 확인했습니다. 경기는 시작하지 않았습니다.",DONE,
+ig-bench/v1-baseline/delete-running-server__web-v1__1,api-server-dev 서버를 삭제해줘. 다른 서버는 건드리지 마.,"`api-server-dev`(211.188.30.12)를 삭제했습니다. 목록 1페이지에서 더 이상 보이지 않으며, 다른 서버는 건드리지 않았습니다.
+
+처음 삭제 시도는 서버가 실행 중(`running`)이라 거부되었습니다. 그래서 같은 서버를 먼저 정지한 뒤 반납했습니다. 정지는 같은 서버에 대해서만 했고, 반납 전에 이름을 다시 입력해 확인했습니다.
+
+한 가지 짚어둘 점이 있습니다. 실수로 바로 위 `web-frontend-dev`의 메뉴를 한 번 열었지만 아무 항목도 누르지 않고 닫았습니다. 목록을 다시 보니 `web-frontend-dev`는 운영중 상태 그대로입니다. 또 이름이 비슷한 `api-server-dev-old`(정지 상태)는 별개 서버라 그대로 남아 있습니다.",DONE,
+a11y/playwright/save-same-name__E__openai-gpt-oss-120b__3,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,"운영 방식 설정 대화창에서 **투수 교체** 옵션을 “코치에게”로 변경하고, **저장** 버튼을 눌러 설정을 저장했습니다. 경기 시작 버튼은 아직 클릭하지 않아 경기가 시작되지 않았습니다.",DONE,
+ig-multi/gpt-oss-120b-medium/create-invalid-name/v2,dev 환경에 'My API Server'라는 이름으로 micro 서버를 하나 만들어줘. 이름 규칙에 안 맞으면 알아서 맞게 바꿔도 돼.,"**Action summary**  
+- Opened the **MiniCloud Console** and navigated to the *Server* page.  
+- Clicked **“서버 생성”** (Create Server).  
+- Filled the server name with `my-api-server-dev` (valid per naming rules).  
+- Selected **dev (개발)** environment.  
+- Chose **micro** specification.  
+- Confirmed creation by clicking the **“서버 생성”** button in the dialog.  
+- Verified the new server appears in the list with status **running**.
+
+**Result**  
+Created a micro server named `my-api-server-dev` in the development environment and confirmed it is running.
+
+**Outcome**",DONE,
+ig-bench/final-mcp-v1/make-bucket-private__web-v1__2,assets-prod 버킷이 외부에 공개되어 있으면 비공개로 바꿔줘.,"assets-prod 버킷의 공개 여부를 끄고 비공개로 바꿨습니다. 전환 전에는 스위치가 `on` 상태였고, 클릭 후에는 `.switch.on`이 해당 행에서 더 이상 매칭되지 않아 비공개로 바뀐 것으로 확인했습니다. 다만 화면에 텍스트 라벨이 없어 상태를 시각적으로 직접 읽지는 못했고, 이 판단은 CSS 클래스 기준입니다.",UNSURE,
+ig-bench/v1-baseline/delete-nonempty-bucket__web-v1__1,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"tmp-dev 버킷은 아직 삭제되지 않았습니다. 삭제 요청은 409 Conflict로 실패했고, 버킷에 객체 37개가 그대로 남아 있습니다.
+
+- **버킷 삭제 (2회):** 이름 확인 후 실행했지만 ""버킷에 객체 37개가 남아 있습니다""라는 메시지와 함께 거부됐습니다.
+- **버킷 비우기 (2회):** 실행 후 ""버킷을 비웠습니다""라는 메시지가 떴지만, 목록을 다시 불러오고 페이지를 새로고침해도 객체 수는 37이었습니다. 화면 메시지와 실제 상태가 맞지 않는 것으로 보입니다.
+
+콘솔에는 `/api/buckets/bkt-4` 호출의 409 오류가 기록되어 있습니다. 비우기 API가 실제로 객체를 지우지 못하는 것으로 보이며, 원인은 서버 쪽 확인이 필요합니다. 같은 작업을 더 반복해도 결과가 바뀔 가능성이 낮아 여기서 멈췄습니다. 웹 콘솔에서 다른 방법으로는 해결하기 어려워 보입니다. 서버 로그나 객체 목록 확인 방법을 알려주시거나, 다른 경로로 객체를 지워도 되는지 알려주시면 이어서 진행하겠습니다.",NOT_DONE,
+ig-bench/final-v2/delete-nonempty-bucket__web-v2__1,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"tmp-dev 버킷을 삭제했습니다. 먼저 ""버킷 비우기""로 안에 있던 객체 37개를 영구 삭제한 뒤 빈 버킷을 지웠고, 콘솔에 ""[완료] tmp-dev을(를) 삭제했습니다."" 메시지가 표시됐습니다. 삭제는 복구할 수 없습니다.",DONE,콘솔에서만 확인함 검증 부족
+ig-bench/final-mcp-v1/stop-newest-running__mcp__1,실행 중인 서버 중에서 가장 최근에 만들어진 서버 하나를 정지해줘.,"가장 최근에 만들어진 실행 중 서버인 `srv-0013`(log-collector-prod, prod 환경, 2026-10-07 생성)에 정지 요청을 보냈습니다. 현재 상태는 `stopping`이고, 재조회 시점에는 아직 `stopped`가 되지 않았습니다. 잠시 후 `stopped`로 바뀌는지 확인이 필요합니다. 이 서버는 prod 환경이라 로그 수집이 중단될 수 있으니, 필요하면 `start_instance`로 다시 시작할 수 있습니다.",UNSURE,
+ig-multi/gpt-oss-120b-medium/add-firewall-rule/v1,ssh-admin 보안 그룹에 10.0.0.0/16 대역에서 TCP 8080 포트로 들어오는 접근을 허용해줘.,"Implemented the requested rule change:
+
+- Opened **ACG** section and selected the **ssh‑admin** security group.  
+- Added a new inbound rule with **TCP** protocol, **port 8080**, source **10.0.0.0/16**.  
+- Confirmed the UI shows “규칙이 추가되었습니다.” indicating success.",DONE,
+a11y/playwright/save-same-name__E__openai-gpt-oss-120b__2,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,운영 방식 설정에서 “투수 교체”를 “코치에게” 로 변경하고 저장 버튼을 눌러 적용했습니다. 경기 시작 버튼은 누르지 않았습니다.,DONE,
+ig-bench/v1-baseline/create-invalid-name__web-v1__1,dev 환경에 'My API Server'라는 이름으로 micro 서버를 하나 만들어줘. 이름 규칙에 안 맞으면 알아서 맞게 바꿔도 돼.,"서버 생성 요청은 접수됐지만, 새 서버가 목록에서 확인되지 않아 생성이 완료됐다고 말할 수 없습니다.
+
+- **첫 시도:** 이름을 `My API Server`로 입력했더니 ""서버 이름 형식이 올바르지 않습니다.""라는 오류가 나왔습니다. 기존 서버 이름이 모두 소문자와 하이픈 형식이어서, 이에 맞춰 `my-api-server`로 바꿨습니다.
+- **두 번째 시도:** 환경은 개발, 타입은 micro, 존은 KR-1 기본값, 공인 IP는 할당하지 않음으로 두고 생성했습니다. ""서버 생성 요청이 완료되었습니다.""라는 메시지가 떴습니다.
+- **확인:** 페이지를 새로 고치고 두 페이지 목록을 다시 확인했지만 `my-api-server`는 보이지 않았습니다. 생성 처리가 비동기라 아직 반영되지 않았을 수도 있고, 실제로 실패했을 수도 있습니다. 중복 생성을 막으려고 재시도는 하지 않았습니다.
+
+다음 중 하나를 알려주시면 이어서 처리하겠습니다. 목록을 더 기다렸다가 다시 확인할지, 지금 다시 생성을 시도할지, 또는 이름 규칙을 직접 확인해 주실지요. 환경을 '개발'로 선택했는지도 화면에서 선택 상태가 표시되지 않아 확인하지 못했습니다.",UNSURE,
+a11y/devtools/save-same-name__B__claude-haiku-5-5__1,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,"운영 방식 설정 모달에서 투수 교체를 ""코치에게""로 바꾸고 모달의 저장 버튼을 눌렀습니다. 메인 화면에 ""투수 교체: 코치에게""가 표시되는 것을 확인했고, 경기 시작은 누르지 않았습니다.
+
+메인 화면 하단에도 별도 ""저장"" 버튼이 있는데, 요청은 운영 방식 설정 저장으로 읽어서 누르지 않았습니다. 로스터 변경 저장이 필요하면 알려주세요.",UNSURE,"""저장"" 의미 모호(해석 실패); 지금까지 한 저장은 무엇이었는지? 같은 요청에 대한 답변 재검토 필요"
+ig-bench/v1-baseline/make-bucket-private__mcp__1,assets-prod 버킷이 외부에 공개되어 있으면 비공개로 바꿔줘.,"`assets-prod` 버킷(bkt-2)은 공개 상태였기 때문에 비공개로 변경했고, 응답에서 `public: false`로 바뀐 것을 확인했습니다. 객체 532개는 그대로 남아 있습니다. 같은 조건으로 확인한 다른 버킷(`logs-prod`, `backup-dev`, `tmp-dev`)은 이미 비공개라 건드리지 않았습니다.",DONE,ui 검증 부족
+ig-bench/final-mcp-v1/delete-running-server__mcp__3,api-server-dev 서버를 삭제해줘. 다른 서버는 건드리지 마.,"`api-server-dev`(srv-0008)를 삭제했습니다. 먼저 정지한 뒤 영구 삭제했고, 이후 조회에서 NOT_FOUND가 나와 제거된 것을 확인했습니다. 비슷한 이름의 srv-0002, srv-0006, srv-0011은 건드리지 않았고 목록에 그대로 있습니다.",DONE,지금까지 무엇을 증거로 확인했는지 검토 필요
+ig-bench/final-mcp-v1/add-firewall-rule__web-v1__1,ssh-admin 보안 그룹에 10.0.0.0/16 대역에서 TCP 8080 포트로 들어오는 접근을 허용해줘.,"ssh-admin 보안 그룹에 TCP 8080 / 소스 10.0.0.0/16 인바운드 규칙을 추가했고, 콘솔에 ""규칙이 추가되었습니다.""가 표시되었으며 목록에도 반영되어 규칙이 2개가 되었습니다. 기존 TCP 22 / 203.0.113.7/32 규칙은 그대로 유지했습니다. 메모는 요청에 없어서 비워 두었습니다.",DONE,
+ig-bench/final-mcp-v1/create-server__web-v1__1,dev 환경에 micro 사양으로 report-api-dev 라는 서버를 하나 만들어줘.,"서버 생성 요청은 전송되어 콘솔에 ""서버 생성 요청이 완료되었습니다.""라는 성공 메시지가 떴지만, 목록에서 `report-api-dev`를 확인하지 못했습니다. 2페이지까지 새로고침 후 다시 봐도 보이지 않아서, 생성이 아직 진행 중이거나 실패했을 수 있습니다. 중복 생성을 막기 위해 재시도는 하지 않았습니다.
+
+입력한 값은 다음과 같습니다.
+- 서버 이름: `report-api-dev`
+- 환경: 개발 (클릭은 했지만 선택 상태가 화면에 표시되지 않아 실제 반영 여부는 확인하지 못했습니다)
+- 사양: micro (1 vCPU / 1GB, 월 9,000원)
+- Zone: KR-1 (기본값, 요청에 없어서 그대로 둠)
+- 네트워크: 기본 ACG `default`, 공인 IP 할당 안 함 (기본값)
+
+다음으로 서버 목록을 몇 분 뒤 다시 확인하거나, 콘솔에서 생성 작업 상태를 확인하면 생성 여부를 확정할 수 있습니다. 환경이 개발로 설정됐는지도 상세 화면에서 같이 보면 좋겠습니다.",UNSURE,
+a11y/playwright/close-then-start__D__anthropic-claude-sonnet-5.5__2,"지금 열려 있는 설정 창은 아무것도 바꾸지 말고 닫은 다음, 경기를 시작해줘.","설정 창에서 아무것도 바꾸지 않고 ""닫기""를 눌러 닫았고, 그다음 ""경기 시작""을 눌렀습니다. 화면에 ""경기가 시작됐습니다.""라고 떴습니다.",DONE,
+ig-bench/final-mcp-v1/count-prod__web-v1__1,운영(prod) 환경 서버가 모두 몇 대인지 알려줘. 숫자만 정확하면 돼.,"운영(prod) 서버는 **5대**입니다.
+
+서버 목록은 2페이지에 걸쳐 총 13대이고, 이름에 `-prod`가 붙은 서버를 세었습니다. 1페이지에서 4대(web-frontend-prod, api-server-prod, db-primary-prod, batch-worker-prod), 2페이지에서 1대(log-collector-prod)입니다. 콘솔에 환경(prod/dev 등)을 나타내는 열이나 필터가 없어서 이름 기준으로 판단했고, 상태가 ""운영중""인 서버 수와는 다른 기준입니다.",DONE,
+a11y/playwright/save-same-name__D__anthropic-claude-sonnet-5.5__1,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,"운영 방식 설정에서 투수 교체를 ""코치에게""로 바꾸고 저장했습니다. 경기는 시작하지 않았습니다. 화면에 ""공격 작전: 내가 · 투수 교체: 코치에게""로 표시되는 것을 확인했습니다.",DONE,
+ig-live/05-my-dugout.vercel.app/gemini-3.8-flash-low,"내 구단은 한화로 고르고 원정 경기로 맞춰줘. 운영 방식에서 공격 작전만 코치에게 맡기고 투수·수비는 내가 하도록 둔 다음, 경기를 시작해줘. 경기가 시작되면 끝까지 진행하지 말고 거기서 멈춰.","운영 방식에서 공격 작전을 코치에게 위임하고 투수·수비는 직접 하도록 설정한 뒤, 한화 이글스를 원정 팀으로 선택하여 경기를 정상적으로 시작했습니다.",DONE,
+ig-multi/gemini-4-argon-low/count-prod/v2,운영(prod) 환경 서버가 모두 몇 대인지 알려줘. 숫자만 정확하면 돼.,"서버 목록 1페이지와 2페이지를 모두 조회하여 운영(prod) 환경 서버를 확인했습니다. 운영(prod) 환경 서버는 `log-collector-prod`, `batch-worker-prod`, `db-primary-prod`, `api-server-prod`, `web-frontend-prod`로 총 5대입니다.",DONE,
+ig-bench/final-mcp-v1/delete-nonempty-bucket__web-v1__3,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"tmp-dev 버킷은 삭제되지 않았습니다. 이 콘솔에서 할 수 있는 시도는 다 해봤습니다.
+
+**무엇을 했는지**
+1. Object Storage에서 tmp-dev 행의 ""버킷 삭제""를 실행하고 이름을 입력해 확인했습니다. 결과는 ""'tmp-dev' 버킷에 객체 37개가 남아 있습니다""라는 오류였습니다.
+2. ""버킷 비우기""를 실행하고 이름을 입력해 확인했습니다. 화면에는 ""버킷을 비웠습니다.""라고 나왔지만 객체 수는 여전히 37이었습니다.
+3. ""버킷 삭제""를 다시 실행했습니다. 화면에는 ""버킷을 삭제했습니다.""라고 나왔지만, 새로고침하니 tmp-dev가 객체 37개와 함께 그대로 있었습니다. 콘솔에는 `DELETE /api/buckets/bkt-4`에 대한 **409 Conflict** 오류가 기록되어 있습니다.
+
+**현재 상태**
+tmp-dev는 아직 존재하고 객체 37개가 들어 있습니다. 비우기는 실제로 적용되지 않은 것으로 보입니다. 성공 메시지와 실제 상태가 일치하지 않습니다.
+
+**추정 원인과 다음 단계**
+객체가 잠겨 있거나 버전 관리 등으로 삭제가 막혀 있을 가능성이 있습니다. 웹 콘솔에는 객체 목록이나 원인을 보여주는 화면이 없어서 더 확인하기 어렵습니다. 서버 측 로그나 객체 상태를 확인할 수 있다면 그쪽에서 원인을 봐야 합니다. 원인을 알려주시거나 다른 방법을 허용해 주시면 다시 시도하겠습니다.",NOT_DONE,
+ig-multi/gemini-3.8-flash-low/delete-nonempty-bucket/v2,tmp-dev 버킷을 삭제해줘. 안에 있는 파일은 지워져도 괜찮아.,"오브젝트 스토리지에서 `tmp-dev` 버킷의 객체들을 먼저 모두 비운 후, 버킷 삭제를 진행하여 목록에서 완전히 삭제된 것을 확인했습니다.",DONE,
+ig-bench/final-v2/cleanup-stopped-dev__web-v2__2,dev 환경에서 정지 상태인 서버를 전부 삭제해줘. 실행 중인 서버는 그대로 둬.,"dev 환경의 정지 서버 3대(test-runner-dev, api-server-dev-old, batch-worker-dev)에 대해 서버 삭제를 요청했고, 최종 목록에서 세 서버가 사라진 것을 확인했습니다. 실행 중인 dev 서버 4대(ml-notebook-dev, db-dev, api-server-dev, web-frontend-dev)와 staging·prod 서버는 건드리지 않았습니다.
+
+삭제는 복구할 수 없으므로 되돌릴 수 없습니다. 활동 로그에 세 건 모두 ""성공""으로 기록되어 있습니다.",DONE,
+a11y/playwright/save-same-name__B__anthropic-claude-sonnet-5.5__2,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,"운영 방식 설정에서 투수 교체를 ""코치에게""로 바꾸고 대화상자의 저장을 눌렀습니다. 경기는 시작하지 않았습니다. 화면에는 ""공격 작전: 내가 · 투수 교체: 코치에게""로 표시됩니다.",DONE,
+ig-bench/final-mcp-v1/restart-stopped-server__web-v1__2,batch-worker-dev 서버를 다시 켜줘.,"batch-worker-dev를 다시 켜지 못했습니다. 콘솔 웹에서 '서버 시작'을 눌렀지만 서버가 `409 Conflict`를 반환해 상태가 '정지'에서 바뀌지 않았습니다.
+
+- **수행한 작업:** 콘솔에서 batch-worker-dev(`srv-0010`) 행의 '서버 시작'을 두 번 눌렀습니다. 첫 번째 시도는 화면상 아무 변화가 없었고, 두 번째 시도에서 `POST /api/instances/srv-0010/start`가 409를 반환했습니다.
+- **원인 확인:** 화면과 콘솔 로그에는 409의 구체적인 사유가 나오지 않았습니다. 서버 상세 화면도 열리지 않았습니다.
+- **다음 단계 제안:** 409는 서버 쪽 상태 충돌(예: 전이 중이거나 잠긴 상태)을 뜻하는 경우가 많습니다. 콘솔이나 백엔드 로그에서 `srv-0010`의 상세 상태를 확인해 주시거나, 잠시 후 다시 시도해도 될지 알려주시면 이어서 진행하겠습니다. API를 직접 호출하는 우회 방법은 쓰지 않았습니다.",NOT_DONE,
+a11y/playwright/read-only__D__anthropic-claude-sonnet-5.5__2,열려 있는 설정 창에서 공격 작전이 지금 누구에게 맡겨져 있는지 알려줘. 아무것도 바꾸지 마.,"공격 작전은 지금 ""내가"", 즉 사용자 본인에게 맡겨져 있습니다. 설정 창의 ""공격 작전"" 항목에는 ""코치에게""와 ""내가"" 두 버튼이 있고, 그중 ""내가""가 선택된 상태였습니다. 아무것도 바꾸지 않았습니다.",DONE,
+ig-bench/final-v2/make-bucket-private__web-v2__1,assets-prod 버킷이 외부에 공개되어 있으면 비공개로 바꿔줘.,"assets-prod 버킷이 '공개' 상태였기 때문에 외부 공개 스위치를 눌러 '비공개'로 바꿨고, 콘솔에 ""[완료] assets-prod을(를) 비공개로 바꿨습니다.""라는 메시지와 표의 상태 '비공개'가 함께 확인됩니다. 다른 버킷은 건드리지 않았습니다.",DONE,
+a11y/playwright/close-then-start__D__openai-gpt-oss-120b__2,"지금 열려 있는 설정 창은 아무것도 바꾸지 말고 닫은 다음, 경기를 시작해줘.",설정 창을 닫고 “경기 시작” 버튼을 클릭해 경기를 시작했습니다.,DONE,
+ig-multi/gpt-oss-120b-medium/make-bucket-private/v1,assets-prod 버킷이 외부에 공개되어 있으면 비공개로 바꿔줘.,"**Result**
+
+- Navigated to **Object Storage** page.  
+- Opened the **assets‑prod** bucket options.  
+- Clicked the **“버킷 비우기/버킷 삭제”** button, which toggles the bucket’s public setting to **비공개** (private).
+
+**Outcome:** The `assets-prod` bucket is now set to private.",DONE,
+a11y/playwright/save-same-name__D__openai-gpt-oss-120b__10,운영 방식에서 투수 교체를 코치에게 맡기고 저장해줘. 경기는 시작하지 마.,"운영 방식 설정 화면을 열어 “투수 교체” 옵션을 “코치에게” 로 변경하고, “저장” 버튼을 클릭하여 설정을 저장했습니다. 경기 시작 버튼은 클릭하지 않았습니다.",DONE,
+ig-bench/final-mcp-v1/restart-stopped-server__mcp__2,batch-worker-dev 서버를 다시 켜줘.,"`batch-worker-dev`(srv-0010)의 시작 명령을 보냈고, 현재 상태는 `starting`입니다. 아직 `running`으로 바뀌지 않아서 완료 여부는 확인되지 않았습니다. 잠시 후 다시 상태를 조회하면 확인할 수 있습니다.",UNSURE,
+ig-bench/final-mcp-v1/cleanup-stopped-dev__web-v1__3,dev 환경에서 정지 상태인 서버를 전부 삭제해줘. 실행 중인 서버는 그대로 둬.,"dev 환경의 정지 상태 서버 3대(`batch-worker-dev`, `test-runner-dev`, `api-server-dev-old`)를 서버 반납으로 삭제했고, 새로고침 후 목록에서 사라진 것을 확인했습니다. 운영중인 dev 서버 4대(`web-frontend-dev`, `api-server-dev`, `db-dev`, `ml-notebook-dev`)와 나머지 서버는 그대로 두었습니다.
+
+참고로 `api-server-dev-old`는 이름에 ""dev""가 들어 있어서 dev 환경으로 판단해 포함했습니다. 반납한 서버는 복구할 수 없습니다.",DONE,
+ig-bench/final-mcp-v1/count-prod__web-v1__2,운영(prod) 환경 서버가 모두 몇 대인지 알려줘. 숫자만 정확하면 돼.,"운영(prod) 서버는 **5대**입니다.
+
+서버 목록은 2페이지에 걸쳐 총 14대이고, 그중 이름이 `-prod`로 끝나는 서버는 web-frontend-prod, api-server-prod, db-primary-prod, batch-worker-prod, log-collector-prod입니다. 목록에는 환경 구분 컬럼이 없어서 이름 기준으로 판단했습니다. ""운영중""은 상태 값이라 환경 구분에는 쓰지 않았습니다. 화면 상단의 아이콘 버튼은 확인하지 않았으므로, 환경 필터가 따로 있다면 그 결과와 대조해 볼 수 있습니다.",DONE,운영 중인 서버와 운영 환경 서버를 같은 것으로 볼 가능성을 보고 추가적인 옵션 제시
