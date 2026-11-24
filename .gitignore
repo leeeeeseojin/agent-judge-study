@@ -1,0 +1,3 @@
+.env
+__pycache__/
+labels/label_tool.html
