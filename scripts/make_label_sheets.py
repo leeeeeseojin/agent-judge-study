@@ -11,6 +11,7 @@
 사용법:
     python scripts/make_label_sheets.py           labels/sheet_round1.csv 생성. 다시 실행하면 새 후보만 아래에 덧붙인다
     python scripts/make_label_sheets.py --retest  labels/sheet_round2.csv 생성. 같은 기록을 다른 순서로 (재검사용)
+    python scripts/make_label_sheets.py --other   labels/sheet_other.csv 생성. 다른 라벨러용 30건 (내 라벨별 10건씩 무작위)
 
 시트에는 지시문과 표식을 뺀 답변만 넣는다. 실제 성공 여부·모델·표식은 보지 않고 붙인다.
 """
@@ -24,6 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LABELS = ROOT / "labels"
 RANDOM_N = 30
+OTHER_PER_LABEL = 10
 FIELDS = ["item_id", "task", "answer", "label", "note"]
 
 items = {it["id"]: it for it in map(json.loads, (ROOT / "data/items.jsonl").open(encoding="utf8"))}
@@ -90,6 +92,19 @@ def main() -> None:
             counts[r] = counts.get(r, 0) + 1
 
     r1 = LABELS / "sheet_round1.csv"
+    if "--other" in sys.argv:
+        # 내 라벨별로 같은 수를 무작위로 뽑는다. 그냥 뽑으면 대부분 DONE이라 κ가 불안정하다
+        done = [r for r in read_csv(r1) if r["label"].strip()]
+        rng = random.Random(20261124)
+        ids = []
+        for label in ("DONE", "UNSURE", "NOT_DONE"):
+            pool = sorted(r["item_id"] for r in done if r["label"].strip().upper() == label)
+            ids += rng.sample(pool, min(OTHER_PER_LABEL, len(pool)))
+        rng.shuffle(ids)
+        write_csv(LABELS / "sheet_other.csv", [row(i) for i in ids])
+        print(f"sheet_other.csv {len(ids)}건 (내 라벨별 {OTHER_PER_LABEL}건씩 무작위, 순서 섞음)")
+        return
+
     if "--retest" in sys.argv:
         done = read_csv(r1)
         ids = [r["item_id"] for r in done if r["label"].strip()]
