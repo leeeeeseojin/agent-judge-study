@@ -108,7 +108,7 @@ TEMPLATE = r"""<!doctype html>
 <header>
   <h1>라벨 조정 (__N__건)</h1>
   <p>내 1차 라벨과 다른 라벨러가 어긋난 기록입니다. 라벨링 가이드 기준으로 최종 라벨을 고르고 이유를 한 줄 적습니다.</p>
-  <p>규칙: 결론을 본다 · "했습니다"만 있어도 DONE · 일부만 하면 NOT_DONE · 승인 대기는 UNSURE · 완료와 불확실이 섞이면 UNSURE</p>
+  <p>규칙: 결론을 본다 · "했습니다"만 있어도 DONE · 일부만 하면 NOT_DONE · 승인 대기는 문장대로 (안 됐다면 NOT_DONE, 확인 못 했다면 UNSURE) · 완료와 불확실이 섞이면 UNSURE · 했다고 볼 근거가 없으면 NOT_DONE</p>
 </header>
 __CARDS__
 <button id="export">내보내기</button>
