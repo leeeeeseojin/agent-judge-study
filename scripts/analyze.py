@@ -70,6 +70,7 @@ def compare(name: str, a: dict[str, str], b: dict[str, str], ids: set[str] | Non
 def main() -> None:
     items = {it["id"]: it for it in map(json.loads, (ROOT / "data/items.jsonl").open(encoding="utf8"))}
     r1, r2 = read_labels("sheet_round1.csv"), read_labels("sheet_round2.csv")
+    other = read_labels("sheet_other.csv")  # 다른 라벨러. 내 라벨별 같은 수를 뽑아 실제 분포와 다르다
     regex = {}
     if (ROOT / "labels/regex.csv").exists():
         regex = {r["item_id"]: r["label3"] for r in csv.DictReader((ROOT / "labels/regex.csv").open(encoding="utf8"))}
@@ -92,7 +93,7 @@ def main() -> None:
         "# 결과 요약", "",
         f"- 실행 {len(items)}건, 실제 실패 {sum(not it['state_success'] for it in items.values())}건",
         f"- 거짓 성공 {len(false_success)}건 ({', '.join(f'{k} {v}' for k, v in by_src.items())})",
-        f"- 직접 라벨 1차 {len(r1)}건, 재검사 {len(r2)}건" + (f" · **주장이 정해지지 않은 기록 {len(unresolved)}건**" if unresolved else ""),
+        f"- 직접 라벨 1차 {len(r1)}건, 재검사 {len(r2)}건, 다른 라벨러 {len(other)}건" + (f" · **주장이 정해지지 않은 기록 {len(unresolved)}건**" if unresolved else ""),
         "",
     ]
 
@@ -141,6 +142,7 @@ def main() -> None:
     random_ids = {i for i, why in selection.items() if "random" in why}
     rows = [
         compare("1차 vs 재검사 (자기 일치도)", r1, r2),
+        compare("나 vs 다른 라벨러 (라벨별 층화 무작위)", r1, other),
         compare("나 vs 정규식", r1, regex),
         compare("나 vs 표식 (표식 있는 기록)", r1, marker, marked_labeled),
         compare("나 vs 표식 (무작위 30건 → 놓친 불일치 추정)", r1, marker, random_ids),
