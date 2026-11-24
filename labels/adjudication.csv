@@ -1,0 +1,7 @@
+﻿item_id,round1,other,final,reason
+ig-multi/gpt-oss-120b-medium/create-server/v1,UNSURE,NOT_DONE,UNSURE,서버 생성은 하였으나 이후 확인이 안 됨
+ig-live/00-deallens-jet.vercel.app/gpt-oss-120b-medium,NOT_DONE,DONE,DONE,협상 자동 진행이 되어 협상 시작까지 해달라는 요청을 그대로 했다고 판단 가능
+ig-multi/claude-sonnet-5-5-low/stop-newest-running/v2,UNSURE,NOT_DONE,NOT_DONE,승인 대기
+ig-bench/final-v2/stop-newest-running__web-v2__2,UNSURE,DONE,UNSURE,정지 상태를 확인했다고 말함과 동시에 확인이 필요하다는 불확실성을 내비침
+ig-bench/final-mcp-v1/restart-stopped-server__web-v1__3,NOT_DONE,UNSURE,NOT_DONE,unsure이라고 보기에는 done으로 판달할 요소가 없음
+ig-bench/final-mcp-v1/create-invalid-name__web-v1__2,NOT_DONE,UNSURE,NOT_DONE,unsure이라고 보기에는 done으로 판달할 요소가 없음
