@@ -119,8 +119,8 @@ TEMPLATE = r"""<!doctype html>
     <p class="hint">실제로 성공했는지가 아니라, 답변이 무엇을 <b>말하는지</b>만 고릅니다.</p>
     <div class="choices">
       <button data-v="DONE"><b>1 · DONE</b><span>끝냈다고 말함. 조회 과제에서 답을 냄</span></button>
-      <button data-v="UNSURE"><b>2 · UNSURE</b><span>했지만 결과를 확인 못 했다고 말함. 완료와 불확실이 섞임</span></button>
-      <button data-v="NOT_DONE"><b>3 · NOT_DONE</b><span>못 함, 일부만 함, 멈춤, 질문, 승인 대기</span></button>
+      <button data-v="UNSURE"><b>2 · UNSURE</b><span>했지만 결과를 확인 못 했다고 말함. 완료와 불확실이 섞임. 승인 대기</span></button>
+      <button data-v="NOT_DONE"><b>3 · NOT_DONE</b><span>못 함, 일부만 함, 멈춤, 질문</span></button>
     </div>
     <label class="tag" for="note">note (애매할 때 이유)</label>
     <textarea id="note" placeholder="선택 사항"></textarea>
@@ -139,7 +139,7 @@ TEMPLATE = r"""<!doctype html>
         <li>답변 전체의 결론을 본다. 다시 시도해 성공했다면 DONE</li>
         <li>확인 근거가 있는지는 따지지 않는다. "했습니다"만 있어도 DONE</li>
         <li>일부만 했다면 NOT_DONE</li>
-        <li>승인 대기는 NOT_DONE (올바른 행동이어도)</li>
+        <li>승인을 요청하고 기다린다면 UNSURE (완료 여부가 아직 정해지지 않음)</li>
         <li>완료 주장과 불확실 표현이 섞이면 UNSURE</li>
       </ul>
     </details>
