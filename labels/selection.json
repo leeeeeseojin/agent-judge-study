@@ -324,7 +324,8 @@
   "regex"
  ],
  "ig-multi/claude-sonnet-5-5-low/stop-newest-running/v2": [
-  "regex"
+  "regex",
+  "llm"
  ],
  "ig-multi/gemini-3.8-flash-low/count-prod/v1": [
   "regex"
@@ -345,13 +346,15 @@
   "regex"
  ],
  "ig-multi/gpt-oss-120b-medium/create-invalid-name/v1": [
-  "regex"
+  "regex",
+  "llm"
  ],
  "ig-multi/gpt-oss-120b-medium/create-invalid-name/v2": [
   "regex"
  ],
  "ig-multi/gpt-oss-120b-medium/create-server/v1": [
-  "regex"
+  "regex",
+  "llm"
  ],
  "ig-multi/gpt-oss-120b-medium/delete-nonempty-bucket/v1": [
   "regex"
@@ -366,10 +369,12 @@
   "regex"
  ],
  "ig-live/00-deallens-jet.vercel.app/claude-sonnet-5-5-low": [
-  "regex"
+  "regex",
+  "llm"
  ],
  "ig-live/00-deallens-jet.vercel.app/gpt-oss-120b-medium": [
-  "regex"
+  "regex",
+  "llm"
  ],
  "ig-live/01-intentguard-plum.vercel.app/gemini-3.8-flash-low": [
   "regex"
@@ -501,7 +506,8 @@
   "regex"
  ],
  "a11y/playwright/save-same-name__D__openai-gpt-oss-120b__7": [
-  "regex"
+  "regex",
+  "llm"
  ],
  "a11y/playwright/save-same-name__D__openai-gpt-oss-120b__9": [
   "regex"
@@ -531,7 +537,8 @@
   "regex"
  ],
  "a11y/playwright/settings-then-start__B__openai-gpt-oss-120b__8": [
-  "regex"
+  "regex",
+  "llm"
  ],
  "a11y/playwright/settings-then-start__D__openai-gpt-oss-120b__1": [
   "regex"
@@ -539,10 +546,39 @@
  "a11y/playwright/settings-then-start__D__openai-gpt-oss-120b__8": [
   "regex"
  ],
- "a11y/playwright/close-then-start__B__anthropic-claude-sonnet-5.5__1": [
+ "ig-multi/claude-sonnet-5-5-low/create-invalid-name/v2": [
+  "llm",
   "random"
  ],
+ "ig-multi/claude-sonnet-5-5-low/create-server/v1": [
+  "llm"
+ ],
+ "ig-multi/gemini-4-argon-low/stop-newest-running/v2": [
+  "llm",
+  "random"
+ ],
+ "ig-multi/gpt-oss-120b-medium/delete-nonempty-bucket/v2": [
+  "llm",
+  "random"
+ ],
+ "ig-multi/gpt-oss-120b-medium/restart-stopped-server/v1": [
+  "llm"
+ ],
+ "ig-multi/claude-sonnet-5-5-low/make-bucket-private/v1": [
+  "llm"
+ ],
+ "ig-multi/claude-sonnet-5-5-low/restart-stopped-server/v1": [
+  "llm",
+  "random"
+ ],
+ "ig-multi/gemini-3.8-flash-low/stop-newest-running/v2": [
+  "llm"
+ ],
  "ig-live/05-my-dugout.vercel.app/gemini-3.8-flash-low": [
+  "llm",
+  "random"
+ ],
+ "a11y/playwright/close-then-start__B__anthropic-claude-sonnet-5.5__1": [
   "random"
  ],
  "ig-multi/gemini-4-argon-low/delete-nonempty-bucket/v2": [
@@ -590,9 +626,6 @@
  "a11y/playwright/settings-then-start__E__openai-gpt-oss-120b__3": [
   "random"
  ],
- "ig-multi/claude-sonnet-5-5-low/restart-stopped-server/v1": [
-  "random"
- ],
  "a11y/playwright/settings-then-start__E__openai-gpt-oss-120b__7": [
   "random"
  ],
@@ -608,12 +641,6 @@
  "ig-live/05-my-dugout.vercel.app/gemini-4-argon-low": [
   "random"
  ],
- "ig-multi/gpt-oss-120b-medium/delete-nonempty-bucket/v2": [
-  "random"
- ],
- "ig-multi/gemini-4-argon-low/stop-newest-running/v2": [
-  "random"
- ],
  "a11y/playwright/settings-then-start__E__openai-gpt-oss-120b__4": [
   "random"
  ],
@@ -621,9 +648,6 @@
   "random"
  ],
  "a11y/devtools/close-then-start__B__claude-haiku-5-5__1": [
-  "random"
- ],
- "ig-multi/claude-sonnet-5-5-low/create-invalid-name/v2": [
   "random"
  ],
  "a11y/playwright/settings-then-start__A__claude-sonnet-5-5-low__2": [

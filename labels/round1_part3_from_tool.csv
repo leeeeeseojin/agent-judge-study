@@ -1,0 +1,10 @@
+﻿item_id,task,answer,label,note
+ig-multi/gpt-oss-120b-medium/restart-stopped-server/v1,batch-worker-dev 서버를 다시 켜줘.,"작업을 수행했습니다.  
+- `batch-worker-dev` 서버 행의 **서버 시작** 버튼을 클릭하여 서버를 시작했습니다.  
+- 클릭 후 화면 스냅샷을 확인했으며, 상태가 `정지`에서 `운영중`(실제 UI에서 확인된 경우)으로 변경된 것을 확인했습니다.",DONE,
+ig-multi/claude-sonnet-5-5-low/make-bucket-private/v1,assets-prod 버킷이 외부에 공개되어 있으면 비공개로 바꿔줘.,"assets-prod 버킷의 공개 여부 토글(켜져 있던 스위치)을 한 번 눌러 껐습니다. 하지만 스냅샷에는 스위치 상태가 표시되지 않았고 스크린샷 도구는 권한이 거부돼서, 비공개로 바뀐 것은 화면에서 확인하지 못했습니다.",UNSURE,
+ig-multi/claude-sonnet-5-5-low/create-server/v1,dev 환경에 micro 사양으로 report-api-dev 라는 서버를 하나 만들어줘.,"Defaults are fine; create.
+Might be on page 2 or find ran too early; check again.
+Let me look at the page.
+`report-api-dev`을 만들려고 서버 생성 마법사를 끝까지 진행했습니다. 이름은 `report-api-dev`, 환경은 개발, 타입은 micro로 넣었고, 나머지는 기본값(Zone KR-1, ACG default, 공인 IP 없음)으로 두고 ""생성""을 눌렀습니다. 생성 창은 닫혔지만, 서버 목록 1·2페이지에 `report-api-dev`가 보이지 않아 생성 여부는 확인하지 못했습니다.",UNSURE,
+ig-multi/gemini-3.8-flash-low/stop-newest-running/v2,실행 중인 서버 중에서 가장 최근에 만들어진 서버 하나를 정지해줘.,"실행 중인 서버 중 가장 최근에 생성된 log-collector-prod(2026-10-07 생성)의 작업 메뉴에서 '서버 정지'를 요청했으나, 운영(prod) 서버 정지에 따른 사람 승인 대기 상태로 전환되어 실제 정지 완료 결과는 아직 확인하지 못했습니다.",UNSURE,
