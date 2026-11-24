@@ -14,6 +14,8 @@
 
 import csv
 import json
+import math
+import random
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -58,13 +60,40 @@ APPROVAL_WAIT = {
 }
 
 
+def mcnemar(b: int, c: int) -> float:
+    """짝지은 두 판정의 McNemar 정확검정 (양측 p).
+    b, c는 한쪽에서만 '예'인 기록 수. 같은 기록을 두 조건으로 판정했으니 독립 표본 검정을 쓰면 안 된다."""
+    n = b + c
+    if n == 0:
+        return 1.0
+    tail = sum(math.comb(n, k) for k in range(min(b, c) + 1)) / 2 ** n
+    return min(1.0, 2 * tail)
+
+
+def kappa_ci(xa: list[str], xb: list[str], reps: int = 2000) -> tuple[float, float]:
+    """기록을 복원 추출해 κ를 다시 재는 부트스트랩 95% 구간. 시드를 고정해 다시 돌려도 같은 값이 나온다."""
+    rng = random.Random(0)
+    n = len(xa)
+    ks = []
+    for _ in range(reps):
+        idx = [rng.randrange(n) for _ in range(n)]
+        ks.append(kappa([xa[i] for i in idx], [xb[i] for i in idx]))
+    ks.sort()
+    return ks[int(reps * 0.025)], ks[int(reps * 0.975) - 1]
+
+
+def fmt_p(p: float) -> str:
+    return "<0.001" if p < 0.001 else f"{p:.3f}"
+
+
 def compare(name: str, a: dict[str, str], b: dict[str, str], ids: set[str] | None = None) -> str | None:
     common = sorted((set(a) & set(b)) if ids is None else (set(a) & set(b) & ids))
     if not common:
         return None
     xa, xb = [a[i] for i in common], [b[i] for i in common]
     agree = sum(x == y for x, y in zip(xa, xb))
-    return f"| {name} | {len(common)} | {agree}/{len(common)} | {kappa(xa, xb):.2f} |"
+    lo, hi = kappa_ci(xa, xb)
+    return f"| {name} | {len(common)} | {agree}/{len(common)} | {kappa(xa, xb):.2f} | {lo:.2f}~{hi:.2f} |"
 
 
 def main() -> None:
@@ -122,14 +151,27 @@ def main() -> None:
                 wrong = sum(not conds[c][i]["success"] for i in real_ok)
                 out.append(f"| {c} | {caught}/{len(fs)} | {wrong}/{len(real_ok)} |")
             out.append("")
+            # 조건 쌍마다 McNemar 검정. 같은 기록에서 뒤 조건만 실패로 본 수(b)와 앞 조건만 실패로 본 수(c)를 비교한다
+            pairs = [(group[k], group[m]) for k in range(len(group)) for m in range(k + 1, len(group))]
+            out += ["| 비교 | 거짓 성공: 뒤 조건만 잡음 / 앞 조건만 잡음 | p | 실제 성공 오판: 뒤 조건만 / 앞 조건만 | p |",
+                    "| --- | --- | --- | --- | --- |"]
+            for x, y in pairs:
+                fail = lambda c, i: not conds[c][i]["success"]
+                b1 = sum(fail(y, i) and not fail(x, i) for i in fs)
+                c1 = sum(fail(x, i) and not fail(y, i) for i in fs)
+                b2 = sum(fail(y, i) and not fail(x, i) for i in real_ok)
+                c2 = sum(fail(x, i) and not fail(y, i) for i in real_ok)
+                out.append(f"| {x}→{y} | {b1} / {c1} | {fmt_p(mcnemar(b1, c1))} | {b2} / {c2} | {fmt_p(mcnemar(b2, c2))} |")
+            out.append("")
     if not judges:
         out += ["(심판 판정 없음)", ""]
+    out += ["p는 McNemar 정확검정(양측)이다. 비교가 여러 개라 0.05 근처의 p는 조심해서 읽는다.", ""]
 
     # RQ2. 표식 의존 — 같은 기록, 표식 있음/없음
     # "표식 있을 때만 성공"은 표식이 심판을 성공 쪽으로 민 경우다. 반대 방향과 나눠 센다
     out += ["## RQ2. 표식을 지웠을 때 판정이 바뀐 건수", "",
-            "| 심판·조건 | 비교 건수 | 성공 판정이 바뀜 | 표식 있을 때만 성공 | 그중 거짓 성공 | 주장 판정이 바뀜 |",
-            "| --- | --- | --- | --- | --- | --- |"]
+            "| 심판·조건 | 비교 건수 | 성공 판정이 바뀜 | 표식 있을 때만 성공 | p | 그중 거짓 성공 | 주장 판정이 바뀜 |",
+            "| --- | --- | --- | --- | --- | --- | --- |"]
     rows = 0
     for (judge, cond, has_marker), with_m in sorted(judges.items()):
         if not has_marker or (judge, cond, False) not in judges:
@@ -139,15 +181,17 @@ def main() -> None:
         flips = [i for i in ids if with_m[i]["success"] != without[i]["success"]]
         cflips = sum(with_m[i].get("claim") != without[i].get("claim") for i in ids)
         pushed = [i for i in flips if with_m[i]["success"]]
-        out.append(f"| {judge}·{cond} | {len(ids)} | {len(flips)} | {len(pushed)} | {sum(i in false_success for i in flips)} | {cflips} |")
+        # 표식이 성공 쪽으로 밀었는지: 바뀐 기록 중 두 방향의 수를 McNemar로 비교한다
+        p = mcnemar(len(pushed), len(flips) - len(pushed))
+        out.append(f"| {judge}·{cond} | {len(ids)} | {len(flips)} | {len(pushed)} | {fmt_p(p)} | {sum(i in false_success for i in flips)} | {cflips} |")
         rows += 1
     if not rows:
-        out.append("| (판정 없음) | | | | | |")
+        out.append("| (판정 없음) | | | | | | |")
 
     # RQ3. 애매한 주장 — 직접 라벨한 기록에서 정규식·심판·표식·나 자신
     out += ["", "## RQ3. 주장 판정 일치도 (직접 라벨 기준)", "",
-            "사람끼리의 일치도는 조정 전 1차 라벨, 나머지는 조정 후 최종 라벨로 잰다.", "",
-            "| 비교 | 건수 | 일치 | κ |", "| --- | --- | --- | --- |"]
+            "사람끼리의 일치도는 조정 전 1차 라벨, 나머지는 조정 후 최종 라벨로 잰다. 95% 구간은 부트스트랩(2,000번)이다.", "",
+            "| 비교 | 건수 | 일치 | κ | 95% 구간 |", "| --- | --- | --- | --- | --- |"]
     marked_labeled = {i for i in final if i in marker}
     random_ids = {i for i, why in selection.items() if "random" in why}
     rows = [
@@ -157,7 +201,7 @@ def main() -> None:
         compare("나 vs 표식 (표식 있는 기록)", final, marker, marked_labeled),
         compare("나 vs 표식 (무작위 30건 → 놓친 불일치 추정)", final, marker, random_ids),
     ]
-    # 승인 대기 답변: 라벨링 가이드는 CLAIM_UNSURE, 심판 프롬프트는 처음 규칙대로 CLAIM_NOT_DONE.
+    # 승인 대기 답변: 라벨링 가이드는 문장대로 판단, 심판 프롬프트는 처음 규칙대로 CLAIM_NOT_DONE.
     # 규칙 차이로 생기는 불일치를 빼고 다시 센 행을 함께 둔다
     approval = APPROVAL_WAIT & set(final)
     for (judge, cond, has_marker), js in sorted(judges.items()):
@@ -166,7 +210,7 @@ def main() -> None:
             rows.append(compare(f"나 vs {judge}·{cond} (표식 없이)", final, jc))
             if approval:
                 rows.append(compare(f"나 vs {judge}·{cond} (표식 없이, 승인 대기 {len(approval)}건 제외)", final, jc, set(final) - approval))
-    out += [r for r in rows if r] or ["| (라벨 없음) | | | |"]
+    out += [r for r in rows if r] or ["| (라벨 없음) | | | | |"]
 
     (ROOT / "results").mkdir(exist_ok=True)
     (ROOT / "results/summary.md").write_text("\n".join(out) + "\n", encoding="utf8")
